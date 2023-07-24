@@ -1,5 +1,8 @@
 package com.example.jpa.domain;
 
+import com.example.jpa.domain.model.Address;
+import com.example.jpa.domain.model.Period;
+import com.example.jpa.domain.model.PhoneNumber;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +22,17 @@ public class Member {
     private String username;
     private Integer age;
 
+    @Embedded private Address homeAddress;
+
+    @ElementCollection
+    @CollectionTable(name = "favorite_food", joinColumns = @JoinColumn(name = "member_id"))
+    @Column(name = "food_name")
+    private List<String> favoriteFoods = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "address", joinColumns = @JoinColumn(name = "member_id"))
+    private List<Address> addressHistory = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
     private Team team;
@@ -27,9 +41,10 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public Member(String username, Integer age) {
+    public Member(String username, Integer age, Address homeAddress) {
         this.username = username;
         this.age = age;
+        this.homeAddress = homeAddress;
     }
 
     void setTeam(Team team) {
