@@ -1,53 +1,39 @@
 package com.example.jpa.domain;
 
 import com.example.jpa.domain.model.Address;
-import com.example.jpa.domain.model.Period;
-import com.example.jpa.domain.model.PhoneNumber;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
-    private String username;
-    private Integer age;
 
-    @Embedded private Address homeAddress;
-
-    @ElementCollection
-    @CollectionTable(name = "favorite_food", joinColumns = @JoinColumn(name = "member_id"))
-    @Column(name = "food_name")
-    private List<String> favoriteFoods = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "address", joinColumns = @JoinColumn(name = "member_id"))
-    private List<Address> addressHistory = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-    @Builder
-    public Member(String username, Integer age, Address homeAddress) {
-        this.username = username;
-        this.age = age;
-        this.homeAddress = homeAddress;
+    @Column(name = "name")
+    private String name;
+
+    @Embedded
+    private Address address;
+
+    private Member(String name, Address address) {
+        this.name = name;
+        this.address = address;
     }
 
-    void setTeam(Team team) {
-        this.team = team;
+    public static Member of(String name, Address address) {
+        return new Member(name, address);
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 }
