@@ -1,11 +1,10 @@
-package com.example.jpa.domain;
+package com.example.jpa.domain.delivery.domain;
 
-import com.example.jpa.domain.Order;
-import com.example.jpa.domain.model.Address;
-import com.example.jpa.domain.model.DeliveryStatus;
+import com.example.jpa.domain.order.domain.Order;
+import com.example.jpa.model.Address;
+import com.example.jpa.model.DeliveryStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity

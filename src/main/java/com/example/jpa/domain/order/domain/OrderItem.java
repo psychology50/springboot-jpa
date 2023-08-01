@@ -1,5 +1,6 @@
-package com.example.jpa.domain;
+package com.example.jpa.domain.order.domain;
 
+import com.example.jpa.domain.item.domain.Item;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

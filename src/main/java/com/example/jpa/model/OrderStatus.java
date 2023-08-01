@@ -1,4 +1,4 @@
-package com.example.jpa.domain.model;
+package com.example.jpa.model;
 
 public enum OrderStatus {
     ORDER, CANCEL

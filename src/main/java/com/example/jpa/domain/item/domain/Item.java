@@ -1,5 +1,6 @@
-package com.example.jpa.domain;
+package com.example.jpa.domain.item.domain;
 
+import com.example.jpa.domain.category.domain.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,17 @@ public abstract class Item {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.stockQuantity = restStock;
     }
 }
